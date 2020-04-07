@@ -1,0 +1,90 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font: 13px Helvetica, Arial;
+}
+
+button {
+	box-shadow:inset 0px 1px 0px 0px #e184f3;
+	background:linear-gradient(to bottom, #c123de 5%, #a20dbd 100%);
+	background-color:#c123de;
+	border-radius:6px;
+	border:1px solid #a511c0;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #9b14b3;
+}
+button:hover {
+	background:linear-gradient(to bottom, #a20dbd 5%, #c123de 100%);
+	background-color:#a20dbd;
+}
+button:active {
+	position:relative;
+	top:1px;
+}
+
+#messages {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: scroll;
+}
+#messages li {
+  padding: 5px 10px;
+  font-size: 2em;
+}
+
+
+#app{
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-template-rows: 1fr;
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
+
+}
+
+#chatroom{
+  border-left: solid #9b14b3 2px;
+}
+
+#message {
+  position: absolute;
+  bottom: 0;
+  min-width: 80%;
+  display: flex;
+  flex-direction: row;
+}
+
+#message input{
+  padding: 20px;
+  background:#f0f0f0;
+  display: block;
+  min-width: 70%;
+  font-size: 2em;
+  font-style: italic;
+}
+
+#message button{
+  display: block;
+  max-width: 20%;
+
+}
+
+.me{
+  text-align: right;
+}
+
+.server-message{
+  color: black;
+  background-color: red;
+}

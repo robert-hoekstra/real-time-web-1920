@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <base href="/"> 
+    <link rel="stylesheet" href="/css/stylesheet.css">
+  </head>
+  <body>
+    <div id="app">
+    <section id="user">
+      <h2>Choose a username</h2>
+      <form id="username" action="">
+        <input id="usernameInput" autocomplete="off" />
+        <button>Enter Room</button>
+      </form>
+    </section>
+    <section id="chatroom">
+    <ul id="messages"></ul>
+    <form id="message" action="">
+      <input id="m" autocomplete="off" /><button>Send</button>
+    </form>
+  </section>
+</div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/client.js"></script>
+  </body>
+</html>
