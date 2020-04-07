@@ -4,8 +4,7 @@
   "description": "My first Socket.IO app",
   "main": "index.js",
   "scripts": {
-    "prestart": "npm install",
-    "start": "npm serve",
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -14,5 +13,8 @@
     "express": "^4.17.1",
     "moment": "^2.24.0",
     "socket.io": "^2.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
   }
 }
