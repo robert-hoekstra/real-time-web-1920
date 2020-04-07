@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "My first Socket.IO app",
   "main": "index.js",
+  "start": "index.js",
   "scripts": {
     "start": "npm start",
     "test": "echo \"Error: no test specified\" && exit 1"
