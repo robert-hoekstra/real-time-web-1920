@@ -1,8 +1,11 @@
-var express = require("express");
-var app = require("express")();
-var http = require("http").createServer(app);
-var io = require("socket.io")(http);
-var moment = require("moment");
+const express = require("express");
+const app = express();
+const server = require("http").Server(app);
+const io = require("socket.io")(server);
+const moment = require("moment");
+
+
+const PORT = process.env.PORT || 3231
 
 var timeStamp = moment().format("h:mm:ss");
 
@@ -14,9 +17,6 @@ let memes = [
 app.use(express.static("public"));
 app.get("/", function (req, res) {
   res.sendFile(__dirname + "/public/index.html");
-});
-http.listen(8080, function () {
-  console.log("listening on *:8080");
 });
 
 io.on("connection", function (socket) {
@@ -86,3 +86,8 @@ io.on("connection", function (socket) {
     );
   });
 });
+
+
+server.listen(PORT, ()=>{
+  console.log("Connected to port:" + PORT)
+})
