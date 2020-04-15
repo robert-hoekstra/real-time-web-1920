@@ -1,28 +1,35 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Socket.IO chat</title>
-    <base href="/"> 
-    <link rel="stylesheet" href="/css/stylesheet.css">
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
   </head>
   <body>
-    <div id="app">
-    <section id="user">
-      <h2>Choose a username</h2>
-      <form id="username" action="">
-        <input id="usernameInput" autocomplete="off" />
-        <button>Enter Room</button>
-      </form>
-    </section>
-    <section id="chatroom">
-    <ul id="messages"></ul>
-    <form id="message" action="">
-      <input id="m" autocomplete="off" /><button>Send</button>
-    </form>
-  </section>
-</div>
-
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="/js/client.js"></script>
+    <div id="map"></div>
+    <script>
+      var map;
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: -34.397, lng: 150.644},
+          zoom: 8
+        });
+      }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwspDXyFTEiuhRlDUR_z0IxDrv1pwxHdo&callback=initMap"
+    async defer></script>
   </body>
 </html>
