@@ -20,14 +20,6 @@ var socket = io();
     // socket.emit('user list')
   });
 
-  socket.on('new marker', function(collection){
-    console.log("received by server: ", collection)
-    collection.forEach(element => {
-      placeMarker(element)
-    });
-
-  });
-
   socket.on('user list', function(onlineUsers){
     let users = onlineUsers
     console.log('kom maar binnen')
@@ -61,4 +53,7 @@ var socket = io();
 
   socket.on('get-markers', function(markerList){
       console.log(markerList)
+      markerList.forEach(element => {
+        placeMarker(element)
+      });
   })

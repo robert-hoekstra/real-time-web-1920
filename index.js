@@ -1,11 +1,59 @@
 var express = require("express");
 var app = require("express")();
+
 var http = require("http").createServer(app);
 var moment = require("moment");
 var counter = 0
 var collection = [];
 var collectionCount = 0;
 var onlineUsers = [];
+var mongoose = require('mongoose')
+require('dotenv').config()
+
+// MONGOOSE
+
+const DB = process.env.DATABASE.replace(
+  '<password>',
+  process.env.DATABASE_PASSWORD
+);
+
+mongoose
+  .connect(DB, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+    useUnifiedTopology: true
+  })
+  .then(() => console.log('DB connnection successful!'));
+
+
+  const locationSchema = new mongoose.Schema({
+    createdBy: String,
+    description: String,
+    icon: String,
+    nickname: String,
+    position: {lat:Number, lng:Number},
+    title: String
+  })
+
+  const locationCollection = mongoose.model('location', locationSchema)
+
+  exports.getAllTours = async (req, res) => {
+    try {
+      const tours = await Tour.find();
+  
+      res.status(200).json({
+        status: 'success',
+        results: tours.length,
+        data: { tours }
+      });
+    } catch (err) {
+      res.status(404).json({
+        status: 'fail',
+        message: err
+      });
+    }
+  };
 
 
 var express = require('express'),
@@ -13,7 +61,7 @@ var express = require('express'),
     server = require('http').createServer(app),
     io = require('socket.io').listen(server)
 
-server.listen(process.env.PORT || 3000);
+server.listen(process.env.PORT || 4000);
 
 var clients = io.clients;
 
@@ -33,10 +81,12 @@ app.get("/", function (req, res) {
 
 
 io.on("connection", function (socket) {
-  const id = counter++;
-  console.log(clients)
-  console.log(`a user with id ${socket.id} connected`);
-  Object.keys(clients).forEach(function(id) { console.log("ID:",id)}); 
+  
+  
+
+
+
+
 
 
 
@@ -66,8 +116,6 @@ socket.emit('get-markers', userMarkers)
  
 // })
 
-
-
 socket.on('server notification', function(message){
   console.log(message)
 });
@@ -75,17 +123,34 @@ socket.on('server notification', function(message){
 
 
 socket.on('new marker', function(markerData){
-  console.log("test "+ collection)
-  markerData.forEach(element => {
-    if(element != collection){
-      collection.push(element)
-    }  
+
+  const marker = new locationCollection({
+    createdBy: markerData.createdBy,
+    description: markerData.description,
+    icon: markerData.icon,
+    nickname: markerData.nickname,
+    position: markerData.position,
+    title: markerData.title
   });
+
+  marker
+  .save()
+  .then(doc => console.log("Mongo", doc))
+  .catch(err => console.log('ERROR 💥:', err));
+
+
+  // console.log("test "+ collection)
+  // markerData.forEach(element => {
+  //   if(element.position != collection){
+  //     collection.push(element)
+  //   }  
+  // })
+  collection.push(markerData)
   collectionCount = collectionCount++
   console.log(markerData)
   console.log("test "+ collection)
   console.log(collectionCount)
-  socket.broadcast.emit("new marker", collection)
+  // socket.broadcast.emit("new marker", collection)
 })
 
   socket.on("disconnect", function () {
