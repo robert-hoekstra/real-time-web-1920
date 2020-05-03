@@ -1,20 +1,26 @@
 var express = require("express");
 var app = require("express")();
 var http = require("http").createServer(app);
-var io = require("socket.io")(http);
 var moment = require("moment");
 var counter = 0
-var collection = []
-var collectionCount = 0
+var collection = [];
+var collectionCount = 0;
+var onlineUsers = [];
+
+
+var express = require('express'),
+    app = express(),
+    server = require('http').createServer(app),
+    io = require('socket.io').listen(server)
+
+server.listen(process.env.PORT || 3000);
+
 var clients = io.clients;
-var onlineUsers = []
-var port = process.env.PORT || 3000;
-var app = express();
 
+// server.listen(port, function(){
+//   console.log('bingo')
+// });
 
-app.listen(port, function () {
- console.log(`Example app listening on port!`);
-});
 
 app.use(express.static("public"));
 app.get("/", function (req, res) {
