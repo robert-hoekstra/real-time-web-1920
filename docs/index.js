@@ -6,6 +6,7 @@ var moment = require("moment");
 var counter = 0
 var collection = []
 var collectionCount = 0
+var clients = io.clients;
 var onlineUsers = []
 
 app.use(express.static("public"));
@@ -20,19 +21,37 @@ http.listen(8080, function () {
 
 io.on("connection", function (socket) {
   const id = counter++;
+  console.log(clients)
   console.log(`a user with id ${socket.id} connected`);
-  socket.emit("server message", `SERVER: Welcome, you are user number: ${id}!`);
-  socket.broadcast.emit(
-    "server message",
-    `SERVER: User ${id} joined the chat!`
-  );
+  Object.keys(clients).forEach(function(id) { console.log("ID:",id)}); 
+
+
 
   socket.on('new nickname', function(nickname) {
     socket.nickname = nickname;
-    onlineUsers.push(socket.nickname);
+    onlineUsers.push(socket.nickname)
     console.log(socket.id + " changed nickname to: " + socket.nickname)
-    console.log(onlineUsers);
+    socket.emit('user list', onlineUsers)
 });
+
+socket.on('get-markers', function(element){
+let userMarkers = [];
+collection.forEach(markers => {
+  if( markers.nickname == element){
+    userMarkers.push(markers)
+  }
+  
+});
+
+console.log(userMarkers)
+console.log(element)
+socket.emit('get-markers', userMarkers)
+
+})
+
+// socket.on('user list', function(){
+ 
+// })
 
 
 
@@ -45,8 +64,9 @@ socket.on('server notification', function(message){
 socket.on('new marker', function(markerData){
   console.log("test "+ collection)
   markerData.forEach(element => {
-    console.log("loop"+ element)
-    collection.push(element)
+    if(element != collection){
+      collection.push(element)
+    }  
   });
   collectionCount = collectionCount++
   console.log(markerData)
@@ -56,17 +76,8 @@ socket.on('new marker', function(markerData){
 })
 
   socket.on("disconnect", function () {
-    socket.broadcast.emit(
-      "server message",
-      `SERVER: User ${id} left the chat!`
-    );
-    console.log(`a user with id ${id} disconnected`);
-    console.log("Active users: " + onlineUsers)
+    console.log(`a user ${socket.id} with nickname ${socket.nickname} disconnected`);
+    console.log("Active users: " + clients.sockets)
+    onlineUsers.pop(socket.nickname)
   });
-
-  socket.on("chat message", function (verzameling) {
-    if (verzameling.bericht === "/clear all") {
-      socket.broadcast.emit(
-        "clear all",
-        `Your board has been cleared by user id: ${id}`
-      )}})})
+})

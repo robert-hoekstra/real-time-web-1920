@@ -6,87 +6,8 @@
     <meta charset="utf-8">
     <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
     <style>
-      /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-      #map {
-        height: 100%;
-        z-index: -1;
-        display: none;
-
-      }
-
-      #login{
-        width: 20%;
-        z-index: 1;
-        position: fixed;
-        margin: auto;
-        left: 40%;
-        top: 40%;
-        background-color: rgba(255, 255, 255, 0.726);
-        border: solid palevioletred 5px;
-        border-radius: 20px;
-        text-align: center;
-      }
-
-      #login h1{
-        text-align:center;
-        font-family: 'Pacifico', cursive;
-      }
-      /* Optional: Makes the sample page fill the window. */
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-
-      body{
-        background-color:rebeccapurple;
-      }
-
-      button{
-        display:inline-block;
-        padding:0.3em 1.2em;
-        margin:0 0.3em 0.3em 0;
-        border-radius:2em;
-        box-sizing: border-box;
-        text-decoration:none;
-        font-family:'Roboto',sans-serif;
-        font-weight:300;
-        font-size: 2em;
-        color:#FFFFFF;
-        background-color: palevioletred;
-        text-align:center;
-        transition: all 0.2s;
-        margin-left: auto;
-}
-button:hover{
-  background-color:#4095c6;
-}
-
-input{
-  font-family: Georgia, "Times New Roman", Times, serif;
-	background: rgba(255,255,255,.1);
-	border: none;
-	border-radius: 4px;
-	font-size: 15px;
-	margin: 0;
-	outline: 0;
-	padding: 10px;
-	width: 100%;
-	box-sizing: border-box; 
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box; 
-	background-color: #e8eeef;
-	color:#8a97a0;
-	-webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
-	box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
-	margin-bottom: 30px;
-}
-
-#login p{
-  margin-left: auto;
-}
-    </style>
+     </style>
+     <link rel="stylesheet" href="/css/stylesheet.css">
   </head>
   <body>
     <div id="login">
@@ -98,128 +19,15 @@ input{
       </form>
     </div>
     <div id="map"></div>
-    <script>
-      let map;
-var markers = [];
-      let infowindow;
 
-function initialize() {
-  let lelystad = new google.maps.LatLng(52.518536,	5.471422);
+    <script src="/js/googlemaps.js">
 
-  map = new google.maps.Map(document.getElementById('map'), {
-      center: lelystad,
-      zoom: 13
-    });
-
-    map.addListener('click', function(e) {
-      socket.emit('server notification', 'a new location is being added')
-    placeMarkerAndPanTo(e.latLng, map);
-  });
-}
-
-
-function placeMarker(element){
-  let marker = new google.maps.Marker({
-    position: element.position,
-    map: map,
-    icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
-    draggable: true,
-    animation: google.maps.Animation.DROP,
-    description: element.description,
-    title: element.title
-  });
-  marker.setMap(map);
-
-  let infoWindow = new google.maps.InfoWindow({
-    content: `<h1>${element.title}</h1>
-    <p>${element.description}</p>
-    <p><span>Created by: ${element.nickname}</span></p>`
-  });
-
-  marker.addListener('click', function(){
-    infoWindow.open(map, marker);
-  })
-
-}
-
-function placeMarkerAndPanTo(latLng, map) {
-  let title = prompt('Give a title to new pin')
-  let description = prompt('Tell something about this pin')
-  let marker = new google.maps.Marker({
-    position: latLng,
-    map: map,
-    icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
-    draggable: true,
-    animation: google.maps.Animation.DROP,
-    description: description,
-    title: title
-  });
-
-  let markerData = {
-    position: latLng,
-    icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
-    description: description,
-    title: title,
-    createdBy: socket.id,
-    nickname: socket.nickname
-  }
-
-  markers.push(markerData)
-  // console.log("marker collection" + markers[0])
-
-
-
-
-  let infoWindow = new google.maps.InfoWindow({
-    content: `<h1>${title}</h1>
-    <p>${description}</p>
-    <p><span>Created by: ${socket.nickname}</span></p>
-    <button onclick="saveMarker(markers)">Publish Location</button>`
-  });
-
-  marker.addListener('click', function(){
-    infoWindow.open(map, marker);
-  })
-  map.panTo(latLng);
-
-}
-      
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwspDXyFTEiuhRlDUR_z0IxDrv1pwxHdo&callback=initialize"
     async defer></script>
     <script src="/socket.io/socket.io.js"></script>
-<script>
-  var socket = io();
-
-  document.getElementById("username").addEventListener("submit", function (event) {
-    event.preventDefault();
-    socket.nickname = usernameInput.value,
-    console.log(socket.id + " choose a new username: " + socket.nickname);
-    socket.emit('new nickname', socket.nickname);
-
-    // Remove username 
-    let loginbox = document.getElementById("login")
-    loginbox.style.display ="none"
-
-    // Make map active
-    let mapFrame = document.getElementById('map')
-    mapFrame.style.zIndex = 1
-    mapFrame.style.display = 'block'
-  });
-
-  socket.on('new marker', function(collection){
-    console.log("received by server: ", collection)
-    collection.forEach(element => {
-      placeMarker(element)
-    });
-
-  });
-
-  function saveMarker(markerData){
-    
-    console.log("Emit from client: ", markerData)
-     socket.emit("new marker", markerData)
-  }
+<script src="/js/client.js">
+  
 </script>
   </body>
 </html>

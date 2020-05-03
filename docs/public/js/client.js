@@ -1,62 +1,64 @@
 var socket = io();
-let lijst = document.getElementById("messages");
-let message = document.getElementById("m");
-let username = document.getElementById("usernameInput");
-// berichten
 
-
-let verzameling = {
-    naam : "anonymous",
-    bericht : message
-}
-
-document.getElementById("message").addEventListener("submit", function (event) {
-  event.preventDefault();
-  console.log(verzameling);
-  verzameling.bericht = message.value
-  socket.emit("chat message", verzameling);
-  lijst.insertAdjacentHTML("afterbegin", `<li class="me">You: ${verzameling.bericht}</li>`);
-  message.value = ''
-  return
-});
-
-
-socket.on("server message", function(message){
-  lijst.insertAdjacentHTML("afterbegin", `<li class="server-message">${message}</li>`);
-})
-
-socket.on("chat message", function (message) {
-  lijst.insertAdjacentHTML("afterbegin", `<li>${message}</li>`);
-});
-
-socket.on('clear all', function (sender){
-  lijst.innerHTML = `<li class="server-message">${sender}</li>`
-})
-
-socket.on('square', function(solution){
-  lijst.insertAdjacentHTML("afterbegin", `<li class="server-message">The solution to your mathproblem is: ${solution}</li>`);
-})
-
-socket.on('meme', function (meme){
-  lijst.insertAdjacentHTML("afterbegin", `<li class="meme"><img src="${meme}">Kobe!</li>`);
-  console.log(meme)
-})
-
-// username
-
-document.getElementById("username").addEventListener("submit", function (event) {
+  document.getElementById("username").addEventListener("submit", function (event) {
     event.preventDefault();
-    verzameling.naam = username.value
-    console.log(username.value);
-    socket.emit("username received", verzameling);
-    lijst.insertAdjacentHTML("afterbegin", `<li>You joined the room as, ${verzameling.naam}!</li>`);
-    return
+    socket.nickname = usernameInput.value,
+    console.log(socket.id + " choose a new username: " + socket.nickname);
+    socket.emit('new nickname', socket.nickname);
+
+
+    // Remove username box
+    let loginbox = document.getElementById("login")
+    loginbox.style.display ="none"
+
+    // Make map active
+    let mapFrame = document.getElementById('map')
+    mapFrame.style.zIndex = 1
+    mapFrame.style.display = 'block'
+
+    // Render online Users
+    // socket.emit('user list')
   });
 
-socket.on("username received", function (username) {
-  let lijst = document.getElementById("messages");
-  lijst.insertAdjacentHTML("afterbegin", `<li>${username}</li>`);
-});
+  socket.on('new marker', function(collection){
+    console.log("received by server: ", collection)
+    collection.forEach(element => {
+      placeMarker(element)
+    });
 
+  });
 
+  socket.on('user list', function(onlineUsers){
+    let users = onlineUsers
+    console.log('kom maar binnen')
+    renderUsers(users)
+  })
 
+  function saveMarker(markerData){
+    
+    console.log("Emit from client: ", markerData)
+     socket.emit("new marker", markerData)
+  }
+
+  function renderUsers(par1){
+    console.log(par1)
+    document.getElementById('map').insertAdjacentHTML('afterend', `<div id="down-panel">
+      <h2>Online Users</h2>
+      <p>Click on a user to discover more locations!</p>
+      <ul id="usersList">
+        </ul>
+    </div>`)
+    let listnode = document.getElementById('usersList')
+    par1.forEach(element => {
+      listnode.insertAdjacentHTML('beforeend', `<li><button onclick="getMarkersFrom('${element}')">${element}</button></li>`)
+      document.getElementById('usersList') 
+    });
+  }
+
+  function getMarkersFrom(parameter){
+      socket.emit('get-markers', parameter)
+  }
+
+  socket.on('get-markers', function(markerList){
+      console.log(markerList)
+  })
