@@ -8,14 +8,21 @@ var collection = []
 var collectionCount = 0
 var clients = io.clients;
 var onlineUsers = []
+var port = process.env.PORT || 3000;
+var app = express();
+
+
+app.listen(port, function () {
+ console.log(`Example app listening on port!`);
+});
 
 app.use(express.static("public"));
 app.get("/", function (req, res) {
   res.sendFile(__dirname + "/public/index.html");
 });
-http.listen(8080, function () {
-  console.log("listening on *:8080");
-});
+// http.listen(8080, function () {
+//   console.log("listening on *:8080");
+// });
 
 
 
