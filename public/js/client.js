@@ -35,6 +35,7 @@ const socket = io();
   function renderUsers(par1){
     console.log(par1)
     document.getElementById('map').insertAdjacentHTML('afterend', `<div id="down-panel">
+    <h1 class="title">Journey Planner</h1>
       <h2>Share your locations!</h2>
       <p> Adding a location is super easy!
       <ol>
