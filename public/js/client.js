@@ -1,4 +1,4 @@
-var socket = io();
+const socket = io();
 
   document.getElementById("username").addEventListener("submit", function (event) {
     event.preventDefault();
@@ -35,11 +35,20 @@ var socket = io();
   function renderUsers(par1){
     console.log(par1)
     document.getElementById('map').insertAdjacentHTML('afterend', `<div id="down-panel">
-      <h2>Online Users</h2>
+      <h2>Share your locations!</h2>
+      <p> Adding a location is super easy!
+      <ol>
+      <li>1. Click on the map</li>
+      <li>2. Fill in the blanks</li>
+      <li>3. Click on the flag and publish!</li>
+      </ol></p>
+      <h2>Explore together!</h2>
+      <p>Click on the map to add your own location!</p>
       <p>Click on a user to discover more locations!</p>
       <ul id="usersList">
         </ul>
     </div>`)
+
     let listnode = document.getElementById('usersList')
     par1.forEach(element => {
       listnode.insertAdjacentHTML('beforeend', `<li><button onclick="getMarkersFrom('${element}')">${element}</button></li>`)

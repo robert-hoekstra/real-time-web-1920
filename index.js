@@ -1,19 +1,18 @@
 require("dotenv").config();
-var express = require("express");
-var app = require("express")();
-var collection = [];
-var collectionCount = 0;
-var onlineUsers = [];
-var clients = io.clients;
-var mongoose = require("mongoose");
-var express = require("express"),
+const express = require("express");
+const collection = [];
+const collectionCount = 0;
+const onlineUsers = [];
+const mongoose = require("mongoose");
   app = express(),
   server = require("http").createServer(app),
   io = require("socket.io").listen(server);
+const clients = io.clients;
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
   console.log(`Our app is running on port ${PORT}`);
 });
+
 
 // MONGOOSE
 const DB = process.env.DATABASE.replace(
@@ -50,11 +49,16 @@ io.on("connection", function (socket) {
     socket.nickname = nickname;
     onlineUsers.push(socket.nickname);
     console.log(socket.id + " changed nickname to: " + socket.nickname);
-    socket.emit("user list", onlineUsers);
-  });
+
+    locationCollection.find().distinct('nickname', function(error, nickname) {
+      // ids is an array of all ObjectIds
+
+      console.log("Unique users", nickname)
+      socket.emit("user list", nickname);
+  })});
 
   socket.on("get-markers", function (element) {
-    let userMarkers = [];
+    const userMarkers = [];
     collection.forEach((markers) => {
       if (markers.nickname == element) {
         userMarkers.push(markers);
@@ -69,15 +73,9 @@ io.on("connection", function (socket) {
     ) {
       if (err) return console.error(err);
       console.log("Mongo Print", marker);
-      var mongocollection = marker;
+      const mongocollection = marker;
       socket.emit("get-markers", mongocollection);
-    });
-    // socket.emit("get-markers", userMarkers);
-  });
-
-  // socket.on('user list', function(){
-
-  // })
+    })});
 
   socket.on("server notification", function (message) {
     console.log(message);
@@ -101,17 +99,10 @@ io.on("connection", function (socket) {
       .then((doc) => console.log("Mongo", doc))
       .catch((err) => console.log("ERROR 💥:", err));
 
-    // console.log("test "+ collection)
-    // markerData.forEach(element => {
-    //   if(element.position != collection){
-    //     collection.push(element)
-    //   }
-    // })
     collection.push(markerData);
     collectionCount = collectionCount++;
     console.log(markerData);
     console.log("test " + collection);
-    // socket.broadcast.emit("new marker", collection)
   });
 
   socket.on("disconnect", function () {

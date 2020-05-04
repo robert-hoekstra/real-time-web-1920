@@ -12,7 +12,7 @@
         z-index: 1;
         position: fixed;
         margin: auto;
-        left: 40%;
+        margin-left: 35%;
         top: 40%;
         background-color: rgba(255, 255, 255, 0.808);
         border: solid rgb(112, 166, 216) 5px;
@@ -106,7 +106,7 @@ input:focus{
   right: 5px;
   top: 60%;
   margin-top: -30%;
-  width: 200px;
+  width: 25%;
   padding: 5px;
   z-index: 5;
   border: palevioletred 4px solid;
@@ -123,9 +123,10 @@ ul {
   padding: 0;
   margin: 0;
   height: 271px;
-  width: 200px;
+  width: 100%;
   overflow-y: scroll;
 }
+
 li {
   background-color: #f1f1f1;
   padding: 10px;
