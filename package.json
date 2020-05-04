@@ -1,7 +1,7 @@
 {
-  "name": "socket-chat-example",
-  "version": "0.0.1",
-  "description": "My first Socket.IO app",
+  "name": "journey-planner",
+  "version": "1.0.0",
+  "description": "Share your favorite journey's together!",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
