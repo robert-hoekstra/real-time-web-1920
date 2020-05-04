@@ -1,8 +1,8 @@
 require("dotenv").config();
 const express = require("express");
-const collection = [];
-const collectionCount = 0;
-const onlineUsers = [];
+let collection = [];
+let collectionCount = 0;
+let onlineUsers = [];
 const mongoose = require("mongoose");
   app = express(),
   server = require("http").createServer(app),
@@ -58,7 +58,7 @@ io.on("connection", function (socket) {
   })});
 
   socket.on("get-markers", function (element) {
-    const userMarkers = [];
+    let userMarkers = [];
     collection.forEach((markers) => {
       if (markers.nickname == element) {
         userMarkers.push(markers);
@@ -73,7 +73,7 @@ io.on("connection", function (socket) {
     ) {
       if (err) return console.error(err);
       console.log("Mongo Print", marker);
-      const mongocollection = marker;
+      let mongocollection = marker;
       socket.emit("get-markers", mongocollection);
     })});
 
