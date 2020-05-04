@@ -10,7 +10,7 @@ const mongoose = require("mongoose");
 const clients = io.clients;
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
-  console.log(`Our app is running on port ${PORT}`);
+  console.log(`App running at: ${PORT}`);
 });
 
 
@@ -41,7 +41,7 @@ const locationCollection = mongoose.model("location", locationSchema);
 
 app.use(express.static("public"));
 app.get("/", function (req, res) {
-  res.sendFile(__dirname + "/public/index.html");
+  res.sendFile(__dirname + "./public/index.html");
 });
 
 io.on("connection", function (socket) {
