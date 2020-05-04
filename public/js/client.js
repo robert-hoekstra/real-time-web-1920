@@ -43,7 +43,6 @@ const socket = io();
       <li>3. Click on the flag and publish!</li>
       </ol></p>
       <h2>Explore together!</h2>
-      <p>Click on the map to add your own location!</p>
       <p>Click on a user to discover more locations!</p>
       <ul id="usersList">
         </ul>
