@@ -7,11 +7,30 @@
   * [Table of Contents](#table-of-contents)
   * [Concept](#concept)
   * [API's](#api-s)
+    + [Google Maps API](#google-maps-api)
   * [Data](#data)
-    + [Generation](#generation)
+    + [User Data](#user-data)
+    + [Data Generation](#data-generation)
+    + [Data Retrieving](#data-retrieving)
     + [Data Life Cycle](#data-life-cycle)
+  * [Hidden Values](#hidden-values)
   * [Storage](#storage)
-    + [MongoDB](#mongodb)
+    + [MongoDB & Mongoose](#mongodb---mongoose)
+      - [Schema](#schema)
+      - [Models](#models)
+      - [Sending and retrieving](#sending-and-retrieving)
+  * [Socket.io](#socketio)
+    + [Socket Events](#socket-events)
+      - [Client Side](#client-side)
+        * [Emits](#emits)
+        * [Listeners](#listeners)
+      - [Server Side](#server-side)
+        * [Emits](#emits-1)
+        * [Ons](#ons)
+  * [Credits](#credits)
+    + [Developers & Testers](#developers---testers)
+
+
 
 ## Concept
 Start planning your journey with strangers, travelers, family and friends! This online tool let's you explore the globe with real time data. Data includes stories, locations, weather information and pictures!
