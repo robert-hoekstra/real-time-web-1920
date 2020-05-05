@@ -83,7 +83,7 @@ io.on("connection", function (socket) {
 
   socket.on("delete-all-markers", function (){
     console.log(socket)
-    locationCollection.deleteMany({ nickname: socket.nickname }, function (err) {
+    locationCollection.deleteMany({ createdBy: socket.id}, function (err) {
       if (err) return handleError(err);
     });
     console.log("Delete request received")

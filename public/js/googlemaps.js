@@ -71,7 +71,7 @@ function placeMarkerAndPanTo(latLng, map) {
 <p>${description}</p>
 <p><span>Created by: ${socket.nickname}</span></p>
 <button onclick="saveMarker(markers)">Publish Location</button>
-<button onclick="deleteMarker(socket)">Delete all your locations</button>`,
+<button onclick="deleteMarker(socket)">Delete all your Locations</button>`,
   });
 
   marker.addListener("click", function () {
