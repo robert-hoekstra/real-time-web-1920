@@ -4,7 +4,7 @@ const socket = io();
     event.preventDefault();
     socket.nickname = usernameInput.value,
     console.log(socket.id + " choose a new username: " + socket.nickname);
-    socket.emit('new nickname', socket.nickname);
+    socket.emit('new-nickname', socket.nickname);
 
 
     // Remove username box
@@ -20,16 +20,21 @@ const socket = io();
     // socket.emit('user list')
   });
 
-  socket.on('user list', function(onlineUsers){
+  socket.on('user-list', function(onlineUsers){
     let users = onlineUsers
     console.log('kom maar binnen')
     renderUsers(users)
   })
 
   function saveMarker(markerData){
-    
     console.log("Emit from client: ", markerData)
-     socket.emit("new marker", markerData)
+     socket.emit("new-marker", markerData)
+  }
+
+
+  function deleteMarker(){
+    console.log("Emit from client: ", socket)
+    socket.emit("delete-all-markers")
   }
 
   function renderUsers(par1){

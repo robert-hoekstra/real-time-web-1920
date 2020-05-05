@@ -1,5 +1,5 @@
 let map;
-var markers = [];
+let markers = [];
 let infowindow;
 function initialize() {
   let lelystad = new google.maps.LatLng(52.518536, 5.471422);
@@ -10,7 +10,7 @@ function initialize() {
   });
 
   map.addListener("click", function (e) {
-    socket.emit("server notification", "a new location is being added");
+    socket.emit("server-notification", "a new location is being added");
     placeMarkerAndPanTo(e.latLng, map);
   });
 }
@@ -62,15 +62,16 @@ function placeMarkerAndPanTo(latLng, map) {
     createdBy: socket.id,
     nickname: socket.nickname,
   };
-socket.emit('new marker', markerData)
+
+  socket.emit("new-marker", markerData);
   markers.push(markerData);
   // console.log("marker collection" + markers[0])
-
   let infoWindow = new google.maps.InfoWindow({
     content: `<h1>${title}</h1>
 <p>${description}</p>
 <p><span>Created by: ${socket.nickname}</span></p>
-<button onclick="saveMarker(markers)">Publish Location</button>`,
+<button onclick="saveMarker(markers)">Publish Location</button>
+<button onclick="deleteMarker(socket)">Delete all your locations</button>`,
   });
 
   marker.addListener("click", function () {

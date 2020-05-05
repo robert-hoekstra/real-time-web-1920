@@ -45,7 +45,7 @@ app.get("/", function (req, res) {
 });
 
 io.on("connection", function (socket) {
-  socket.on("new nickname", function (nickname) {
+  socket.on("new-nickname", function (nickname) {
     socket.nickname = nickname;
     onlineUsers.push(socket.nickname);
     console.log(socket.id + " changed nickname to: " + socket.nickname);
@@ -54,7 +54,7 @@ io.on("connection", function (socket) {
       // ids is an array of all ObjectIds
 
       console.log("Unique users", nickname)
-      socket.emit("user list", nickname);
+      socket.emit("user-list", nickname);
   })});
 
   socket.on("get-markers", function (element) {
@@ -77,11 +77,20 @@ io.on("connection", function (socket) {
       socket.emit("get-markers", mongocollection);
     })});
 
-  socket.on("server notification", function (message) {
+  socket.on("server-notification", function (message) {
     console.log(message);
   });
 
-  socket.on("new marker", function (markerData) {
+  socket.on("delete-all-markers", function (){
+    console.log(socket)
+    locationCollection.deleteMany({ nickname: socket.nickname }, function (err) {
+      if (err) return handleError(err);
+    });
+    console.log("Delete request received")
+    console.log(socket.nickname)
+  })
+
+  socket.on("new-marker", function (markerData) {
     // Set Data-Structure
 
     const marker = new locationCollection({
