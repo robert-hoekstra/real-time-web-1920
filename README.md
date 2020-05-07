@@ -91,6 +91,11 @@ Maybe I will add data from websites such as places and yelp. Not sure about this
 ![Data Life Cycle Diagram](https://user-images.githubusercontent.com/45421908/79559360-d9304580-80a5-11ea-9b39-75078b84958c.jpg)
 
 Note: final version will be uploaded after feedback 21th april 2020!
+#### Updated!
+Data Life Cycle has now been updates to correspond with the actual product deployed on heroku. All client and server side actions are now seperated. Also all socket events have been described. For more details. See section 'socket.io' in this readme!
+
+![datalifecycle](https://user-images.githubusercontent.com/45421908/81116425-9c79a080-8f25-11ea-91ff-66508b758753.jpg)
+
 
 
 ## Hidden Values
