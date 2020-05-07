@@ -179,8 +179,8 @@ socket.emit("server-notification", "a new location is being added") // Send a se
 
 ##### Listeners
 ```Javascript
-socket.on('user-list', function(onlineUsers)); // Execute function when this message get's emitted from server. Renders all users in the list.
-socket.on('get-markers', function(markerList)); // Execute function when this message get's emitted from server. Render all markers from the users.
+socket.on('user-list', function(onlineUsers){}); // Execute function when this message get's emitted from server. Renders all users in the list.
+socket.on('get-markers', function(markerList){}); // Execute function when this message get's emitted from server. Render all markers from the users.
 ```
 
 #### Server Side
@@ -192,12 +192,13 @@ socket.emit("get-markers", mongocollection); // Send all hits of user out of mon
 
 ##### Ons
 ```Javascript
-socket.on("new-nickname", function (nickname)); // Register new nickname to the socket
-socket.on("get-markers", function (element)); // Execute request and collect all markers. Send them to users.
-socket.on("server-notification", function (message)); // Display message in console.
-socket.on("delete-all-markers", function ()); // Send delete request to mongodb
-socket.on("new-marker", function (markerData)); // Add new marker to the collection
-socket.on("disconnect", function ()); // Disconnect and close socket session.
+socket.on("new-nickname", function (nickname){}); // Register new nickname to the socket
+socket.on("get-markers", function (element){}); // Execute request and collect all markers. Send them to users.
+socket.on("server-notification", function (message){}); // Display message in console.
+socket.on("delete-all-markers", function (){}); // Send delete request to mongodb
+socket.on("new-marker", function (markerData){}); // Add new marker to the collection
+socket.on("disconnect", function (){}); // Disconnect and close socket session.
+
 ```
 
 
