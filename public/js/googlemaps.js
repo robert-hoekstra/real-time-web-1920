@@ -15,6 +15,11 @@ function initialize() {
   });
 }
 
+
+function removeMarker(element){
+  element.setMap(null)
+}
+
 function placeMarker(element) {
   let marker = new google.maps.Marker({
     position: element.position,

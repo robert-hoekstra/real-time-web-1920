@@ -36,9 +36,8 @@ const socket = io();
   function deleteMarker(){
     console.log("Emit from client: ", socket)
     socket.emit("delete-all-markers")
-    socket.emit('delete-user')
+    socket.emit('delete-user')  
   };
-
 
 
   function refreshPanel(){
