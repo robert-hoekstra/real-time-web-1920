@@ -68,7 +68,7 @@ function placeMarkerAndPanTo(latLng, map) {
     nickname: socket.nickname,
   };
 
-  // socket.emit("new-entry", markerData);
+  socket.emit("new-entry", markerData);
   markers.push(markerData);
 
 
