@@ -115,6 +115,7 @@ io.on("connection", function (socket) {
 
 
     socket.broadcast.emit("get-markers", markerData)
+
     locationCollection.find().distinct('nickname', function(error, nickname) {
       // ids is an array of all ObjectIds
 
@@ -122,6 +123,14 @@ io.on("connection", function (socket) {
       socket.broadcast.emit("user-list", nickname);
   })
   });
+
+
+  socket.on("delete-user", function(){
+    locationCollection.find().distinct('nickname', function(error, nickname) {
+      // ids is an array of all ObjectIds
+      console.log("Unique users", nickname)
+      socket.broadcast.emit("user-list", nickname);
+  })});
 
   socket.on("new-entry", function (markerData) {
     // Set Data-Structure
