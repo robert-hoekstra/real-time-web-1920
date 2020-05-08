@@ -23,6 +23,7 @@ const socket = io();
   socket.on('user-list', function(onlineUsers){
     let users = onlineUsers
     console.log('kom maar binnen')
+    refreshPanel()
     renderUsers(users)
   })
 
@@ -35,6 +36,18 @@ const socket = io();
   function deleteMarker(){
     console.log("Emit from client: ", socket)
     socket.emit("delete-all-markers")
+  }
+
+
+  function refreshPanel(){
+    //als lijst bestaat. Verwijder deze dan
+
+    if (document.getElementById('down-panel')){
+      let panel = document.getElementById('down-panel')
+      panel.parentNode.removeChild(panel)
+    } else {
+      console.log("no Panel")
+    }
   }
 
   function renderUsers(par1){
@@ -67,7 +80,12 @@ const socket = io();
 
   socket.on('get-markers', function(markerList){
       console.log(markerList)
-      markerList.forEach(element => {
-        placeMarker(element)
-      });
+
+      if(markerList.length >= 1){
+        markerList.forEach(element => {
+          placeMarker(element)
+        });
+      } else {
+        placeMarker(markerList)
+      }
   })

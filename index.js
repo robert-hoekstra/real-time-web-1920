@@ -112,8 +112,42 @@ io.on("connection", function (socket) {
     collectionCount = collectionCount++;
     console.log(markerData);
     console.log("test " + collection);
+
+
+    socket.broadcast.emit("get-markers", markerData)
+    locationCollection.find().distinct('nickname', function(error, nickname) {
+      // ids is an array of all ObjectIds
+
+      console.log("Unique users", nickname)
+      socket.broadcast.emit("user-list", nickname);
+  })
   });
 
+  socket.on("new-entry", function (markerData) {
+    // Set Data-Structure
+
+    const marker = new locationCollection({
+      createdBy: markerData.createdBy,
+      description: markerData.description,
+      icon: markerData.icon,
+      nickname: markerData.nickname,
+      position: markerData.position,
+      title: markerData.title,
+    });
+
+    // Save to collection
+    marker
+      .save()
+      .then((doc) => console.log("Mongo", doc))
+      .catch((err) => console.log("ERROR 💥:", err));
+
+      locationCollection.find().distinct('nickname', function(error, nickname) {
+        // ids is an array of all ObjectIds
+  
+        console.log("Unique users", nickname)
+        socket.broadcast.emit("user-list", nickname);
+
+  })});
   socket.on("disconnect", function () {
     console.log(
       `a user ${socket.id} with nickname ${socket.nickname} disconnected`

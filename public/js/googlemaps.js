@@ -63,8 +63,11 @@ function placeMarkerAndPanTo(latLng, map) {
     nickname: socket.nickname,
   };
 
-  socket.emit("new-marker", markerData);
+  socket.emit("new-entry", markerData);
   markers.push(markerData);
+
+
+  console.log(markers)
   // console.log("marker collection" + markers[0])
   let infoWindow = new google.maps.InfoWindow({
     content: `<h1>${title}</h1>
